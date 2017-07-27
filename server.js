@@ -3,10 +3,23 @@ import mongoose from 'mongoose';
 import session from 'express-session';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
+import bluebird from 'bluebird';
 
 import config from './config';
+import authRoute from './routes/auth';
+import errorHandler from './middlewares/errorHandler';
 
 const app = express();
+
+// подключение промисов к mongoose
+mongoose.Promise = bluebird;
+mongoose.connect(config.database, err => {
+    if (err) {
+        throw err;
+    }
+
+    console.log('Mongo connected...');
+});
 
 app.listen(config.port, err => {
     if (err) throw err;
@@ -16,7 +29,7 @@ app.listen(config.port, err => {
 
 app.use(morgan('combined'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
     resave: true,
     saveUninitialized: true,
@@ -24,6 +37,6 @@ app.use(session({
 }));
 
 
-app.get('*', async (req, res) => {
-    res.end('Hello world');
-});
+app.use('/api', authRoute);
+
+app.use(errorHandler);

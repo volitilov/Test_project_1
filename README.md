@@ -3,10 +3,12 @@ Example blog on the next stack: nodejs | express | mongodb | react & redux | web
 
 And:
 
-`mongoose`          - mongodb ORM
-`express-session`   - для удобной работы с сесиями 
-`body-parser`       - для удобной работы с телом запроса
-`morgan`            - необходим для логирования
+`mongoose`              - mongodb ORM
+`bcrypt-as-promised`    - библиотека примисов для работы с mongoose
+`bluebird`              - для хеширования      
+`express-session`       - для удобной работы с сесиями 
+`body-parser`           - для удобной работы с телом запроса
+`morgan`                - необходим для логирования
 
 
 ### Structure:
